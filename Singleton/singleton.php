@@ -12,8 +12,9 @@ $p2 = Preferencias::getInstance();
 print 'A linguagem é: '. $p2->getData('language') . "<br>\n"; 
 $p2->setData('language', 'qualquer'); 
 // Descomentar para gravar o valor
- $p1->save();
+ //$p1->save();
 
+// obtém a mesma instância 
 $p3 = Preferencias::getInstance(); 
 print 'A linguagem é: '. $p3->getData('language') . "<br>\n";
 
