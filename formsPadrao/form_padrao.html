@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fomulário de cadastro de pessoas</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<h1>Cadastro de Pessoas</h1>
+	<form method="POST" action="cadastrar">
+		<label>Nome:</label><input type="text" name="nome"><br><br>
+		<label>Idade:</label><input type="text" name="idade"><br><br>
+		<label>Sexo:</label><input type="text" name="sexo"><br><br>
+		<label>Estado Civil:</label>
+		<select name="estado_civil">
+			<option value="solteiro">Solteiro</option>
+			<option value="casado">Casado</option>
+			<option value="Outros">Outros</option>
+		</select> <br><br>
+		<input type="submit" value="Cadastrar"><br><br>
+	</form>
+</body>
+</html>
