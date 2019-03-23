@@ -27,7 +27,6 @@ class usePDO {
 		catch(PDOException $e)
 		{
 			echo "Connection failed: " . $e->getMessage() . "<br>";
-			die("Connection failed: " . $cnx->connect_error) . "<br>";
 		}
 	}
 
@@ -35,7 +34,10 @@ class usePDO {
 	function createDB(){
 		try{
 			$cnx = $this->getInstance();
-
+			if($cnx===NULL){// se o banco não existe não podemos conectar com o singleton
+				$cnx = new PDO("mysql:host=$this->servername", $this->username,$this->password);
+    			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			}
 			$sql = "CREATE DATABASE IF NOT EXISTS $this->dbname";
 			$cnx->exec($sql);
 		}
