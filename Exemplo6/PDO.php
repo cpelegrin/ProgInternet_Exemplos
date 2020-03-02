@@ -27,19 +27,24 @@ class usePDO {
 		catch(PDOException $e)
 		{
 			echo "Connection failed: " . $e->getMessage() . "<br>";
+			if(strpos($e->getMessage(), "Unknown database 'meubanco'")){
+				echo "Conexão nula, criando o banco pela primeira vez". "<br>";
+				$conn = $this->createDB();
+				return $conn;
+			}
+			else
+				die("Connection failed: " . $e->getMessage() . "<br>");
 		}
 	}
 
 	//Métodos do CRUD
 	function createDB(){
 		try{
-			$cnx = $this->getInstance();
-			if($cnx===NULL){// se o banco não existe não podemos conectar com o singleton
-				$cnx = new PDO("mysql:host=$this->servername", $this->username,$this->password);
-    			$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			}
+			$cnx = new PDO("mysql:host=$this->servername", $this->username,$this->password);
+    		$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "CREATE DATABASE IF NOT EXISTS $this->dbname";
 			$cnx->exec($sql);
+			return $cnx;
 		}
 		catch(PDOException $e)
 		{
@@ -72,20 +77,12 @@ class usePDO {
 	function insert($sql){
 		try{
 			$cnx = $this->getInstance();
-			$error = $cnx->prepare($sql);
-
-			$error->execute();
-			echo 'Error occurred:'.implode(":",$error->errorInfo());
-			if($error->errorCode() == 0) {
-				return;
-			}
-			else{
-				return "Falha ao Inserir dados no Banco";
-			}
+			$this->createTable();
+			$cnx->exec($sql);
 		}
 		catch(PDOException $e)
 		{
-			return "Falha ao Inserir dados";
+			return "Falha ao Inserir dados". "<br>";;
 		}
 	}
 
@@ -93,6 +90,7 @@ class usePDO {
 
 		try{
 			$cnx = $this->getInstance();
+			$this->createTable();
 			$result = $cnx->query($sql);
 
 			return $result;
@@ -107,6 +105,7 @@ class usePDO {
 
 		try{
 			$cnx = $this->getInstance();
+			$this->createTable();
 			$result = $cnx->query($sql);
 
 			return $result;
@@ -121,6 +120,7 @@ class usePDO {
 
 		try{
 			$cnx = $this->getInstance();
+			$this->createTable();
 			$result = $cnx->query($sql);
 
 			return $result;
