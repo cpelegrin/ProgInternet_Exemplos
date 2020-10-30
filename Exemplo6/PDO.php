@@ -82,7 +82,7 @@ class usePDO {
 		}
 		catch(PDOException $e)
 		{
-			return "Falha ao Inserir dados". "<br>";;
+			return "Falha ao Inserir dados". "<br>";
 		}
 	}
 
